@@ -129,4 +129,29 @@ plot(hc.average , main="Average Linkage", xlab="", sub="",
 plot(hc.single , main="Single Linkage", xlab="", sub="",
      cex =.9)
 
-##############Logit####################
+##############Logit#######################################
+require(foreign)
+require(nnet)
+require(ggplot2)
+require(reshape2)
+install.packages("mlogit")
+library(mlogit)
+
+data2 <- mlogit.data(d, varying=NULL, choice="q20112", shape = "wide")
+data3 <- mlogit.data(data, varying=NULL, choice="q20112", shape = "wide")
+
+data <- data.matrix(d)
+data <- as.data.frame(data)
+out.d <- data[,apply(data, 2, var, na.rm=TRUE) != 0]  ###remove columns with 0 var
+out.d <- out.d[-c(1:9,11,15,18,20,22,39,61)]
+
+d$q20112<-relevel(d$q20112,ref="I absolutely do not trust it")
+multi.fit <- multinom(q20112~q1003+q1004+q1007a+q1011a+q1012+q1014+q2003+q2004ir+ 
+           q101+q102a+q106,data=d)
+
+mlogit.fit <- mlogit(q20112~ 1 |q1003+q1004+q1007a+q1011a+q1012+q1014+q2003+q2004ir+ 
+               q101+q102a+q106, data=data3 ,reflevel="")
+summary(glm.fit)
+
+
+
