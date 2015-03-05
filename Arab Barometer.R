@@ -137,6 +137,7 @@ require(reshape2)
 install.packages("mlogit")
 library(mlogit)
 
+###reshape from wide to long format
 data2 <- mlogit.data(d, varying=NULL, choice="q20112", shape = "wide")
 data3 <- mlogit.data(data, varying=NULL, choice="q20112", shape = "wide")
 
