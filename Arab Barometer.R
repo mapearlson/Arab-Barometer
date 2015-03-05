@@ -138,6 +138,13 @@ install.packages("mlogit")
 library(mlogit)
 
 ###reshape from wide to long format
+mldata <- mlogit.data(d, varying=NULL, choice="q20112", shape = "wide")
+mldata.int <- data.matrix(mldata)
+mldata.int <- as.data.frame(mldata.int)
+mlogit <- mlogit(q20112 ~ 0 | q1003+q1004+q1007a+q1011a+q1012+q1014+q2003+q2004ir+ 
+                   q101+q102a+q106,data=mldata, reflevel="I trust it to a great extent")
+mlogit <- mlogit(q20112 ~ 0 | q1003+q1004+q1007a+q1011a+q2003+q2004ir+ 
+                   q101,data=mldata)
 data2 <- mlogit.data(d, varying=NULL, choice="q20112", shape = "wide")
 data3 <- mlogit.data(data, varying=NULL, choice="q20112", shape = "wide")
 
