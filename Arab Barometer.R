@@ -129,7 +129,7 @@ plot(hc.average , main="Average Linkage", xlab="", sub="",
 plot(hc.single , main="Single Linkage", xlab="", sub="",
      cex =.9)
 
-##############Logit#######################################
+##############Multinomial Logit#######################################
 require(foreign)
 require(nnet)
 require(ggplot2)
@@ -161,5 +161,5 @@ mlogit.fit <- mlogit(q20112~ 1 |q1003+q1004+q1007a+q1011a+q1012+q1014+q2003+q200
                q101+q102a+q106, data=data3 ,reflevel="")
 summary(glm.fit)
 
-
+############################Binary Logit#####################################
 
