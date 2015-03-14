@@ -194,6 +194,7 @@ install.packages("fields")
 library(fields)
 t(stats(d4))
 d5 <- d4
+###Only Egypt Forward and Backward Selection
 d.egypt <- subset(d5, country==2) 
 d.egypt<-d.egypt[-c(1:8,30,297)]
 d.egypt <- d.egypt[!colSums(is.na(d.egypt)) > 100]
@@ -223,12 +224,14 @@ points(6,sum.fwd$bic [6],col="red",cex=2,pch=20)
 
 plot(regfit.fwd,scale="r2")
 plot(regfit.fwd,scale="adjr2")
-plot(regfit.full,scale="Cp")
+plot(regfit.fwd,scale="Cp")
 plot(regfit.fwd,scale="bic")
 
+coef(regfit.fwd ,6)
+coef(regfit.bwd ,6)
 
-coef(regfit.fwd ,5)
-coef(regfit.bwd ,5)
+log.fit <- glm(islam.p~q2013+q202+q5021+q6052, data=d.egypt,family=binomial)
+summary(log.fit)
 
 all.d5 <- na.omit(d5)
 all.d5 <- all.d5[,-c(30)]
