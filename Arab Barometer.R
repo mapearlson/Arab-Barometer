@@ -163,9 +163,10 @@ summary(glm.fit)
 
 ############################Binary Logit#####################################
 require(plyr)
-
+require(leaps)
 ###Remove Missings
 d2 <- sapply(d, as.character, d[,1:296])
+d2[d2==""] <- NA
 d2[d2=="Don't Know"] <- NA
 d2[d2=="Refuse"] <- NA
 d2[d2=="Missing"] <- NA
@@ -188,8 +189,14 @@ d4$islam.p[d4$q20112==2] <- 1
 d4$islam.p[d4$q20112==1] <- 0
 d4$islam.p[d4$q20112==3] <- 0
 
-
-
+###subset selection
+sum(is.na(d4$islam.p))
+all.d5 <- na.omit(d4)
+all.d5 <- all.d5[,-c(30)]
+regfit.fwd <- regsubsets(islam.p~.,all.d5,nvmax=10, method = "forward")
+summary(regfit.fwd)
+regfit.bwd <- regsubsets(islam.p~.,all.d5,nvmax=10, method = "backward")
+summary(regfit.bwd)
 log.fit <- glm(islam.p~q104 + q105a , data=d4,family=binomial)
 summary(log.fit)
 
