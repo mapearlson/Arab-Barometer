@@ -162,4 +162,41 @@ mlogit.fit <- mlogit(q20112~ 1 |q1003+q1004+q1007a+q1011a+q1012+q1014+q2003+q200
 summary(glm.fit)
 
 ############################Binary Logit#####################################
+require(plyr)
+
+###Remove Missings
+d2 <- sapply(d, as.character, d[,1:296])
+d2[d2=="Don't Know"] <- NA
+d2[d2=="Refuse"] <- NA
+d2[d2=="Missing"] <- NA
+d3 <- as.data.frame(d2)
+d4 <- data.matrix(d3)
+d4 <- as.data.frame(d4)
+
+###recode outcome var
+d3$islam.p <- revalue(d3$q20112, c("I absolutely do not trust it"="0",
+                                   "I trust it to a limited extent"="0",
+                                   "I trust it to a medium extent"="1",
+                                  "I trust it to a great extent"= "1"))
+d3$islam.p2 <- revalue(d3$q20112, c("I absolutely do not trust it"="No Support",
+                                   "I trust it to a limited extent"="No Support",
+                                   "I trust it to a medium extent"="Support",
+                                   "I trust it to a great extent"= "Support"))
+
+d4$islam.p[d4$q20112==4] <- 1
+d4$islam.p[d4$q20112==2] <- 1
+d4$islam.p[d4$q20112==1] <- 0
+d4$islam.p[d4$q20112==3] <- 0
+
+
+
+log.fit <- glm(islam.p~q104 + q105a , data=d4,family=binomial)
+summary(log.fit)
+
+
+
+
+
+
+
 
