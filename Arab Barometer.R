@@ -351,113 +351,44 @@ plot(y.regfit.fwd,scale="bic")
 coef(y.regfit.fwd ,6)
 coef(y.regfit.bwd ,6)
 
-log.fit <- glm(islam.p~  q2011       q5012       q5211       q6106       q7007      q812a3 , data=d.egypt,family=binomial)
-summary(log.fit)
-
-all.d5 <- na.omit(d5)
-all.d5 <- all.d5[,-c(30)]
-regfit.fwd <- regsubsets(islam.p~.,all.d5,nvmax=10, method = "forward")
-summary(regfit.fwd)
-regfit.bwd <- regsubsets(islam.p~.,all.d5,nvmax=10, method = "backward")
-summary(regfit.bwd)
-log.fit <- glm(islam.p~q104 + q105a , data=d3,family=binomial)
-summary(log.fit)
+s.log.fit <- glm(islam.p~q2011+q5012+q5211+q6106+q7007+q812a3, data=d.yemen,family=binomial)
+summary(s.log.fit)
 
 ###Tunisia
-d.egypt <- subset(d5, country==2) 
-d.egypt<-d.egypt[-c(1:8,30,104,297)]
-d.egypt <- d.egypt[!colSums(is.na(d.egypt)) > 100]
-d.egypt<-na.omit(d.egypt)
+d.tunisia <- subset(d5, country==11) 
+d.tunisia<-d.tunisia[-c(1:8,30,104,297)]
+d.tunisia <- d.tunisia[!colSums(is.na(d.tunisia)) > 95]
+d.tunisia<-na.omit(d.tunisia)
 
-regfit.fwd <- regsubsets(islam.p~.,d.egypt,nvmax=5, method = "forward")
-sum.fwd <- summary(regfit.fwd)
-regfit.bwd <- regsubsets(islam.p~.,d.egypt,nvmax=5, method = "backward")
-sum.bwk <- summary(regfit.bwd)
+t.regfit.fwd <- regsubsets(islam.p~.,d.tunisia,nvmax=5, method = "forward")
+t.sum.fwd <- summary(t.regfit.fwd)
+t.regfit.bwd <- regsubsets(islam.p~.,d.tunisia,nvmax=5, method = "backward")
+t.sum.bwk <- summary(t.regfit.bwd)
 
-par(mfrow=c(2,2))
-plot(sum.fwd$rss ,xlab="Number of Variables ",ylab="RSS",
-     type="l")
-plot(sum.fwd$adjr2 ,xlab="Number of Variables ",
-     ylab="Adjusted RSq",type="l")
+coef(t.regfit.fwd ,6)
+coef(t.regfit.bwd ,6)
 
-which.max(sum.fwd$adjr2)
-points(6,sum.fwd$adjr2[6], col="red",cex=2,pch=20)
+t.log.fit <- glm(islam.p~q105a+q2011+q2013+q202+q6041, data=d.tunisia,family=binomial)
+summary(t.log.fit)
 
-plot(sum.fwd$cp ,xlab="Number of Variables ",ylab="Cp", type='l')
-which.min(sum.fwd$cp )
-points(6,sum.fwd$cp [6],col="red",cex=2,pch=20)
-which.min(sum.fwd$bic )
-plot(sum.fwd$bic ,xlab="Number of Variables ",ylab="BIC",
-     type='l')
-points(6,sum.fwd$bic [6],col="red",cex=2,pch=20)
-
-plot(regfit.fwd,scale="r2")
-plot(regfit.fwd,scale="adjr2")
-plot(regfit.fwd,scale="Cp")
-plot(regfit.fwd,scale="bic")
-
-coef(regfit.fwd ,6)
-coef(regfit.bwd ,6)
-
-log.fit <- glm(islam.p~q2013+q202+q5021+q6052, data=d.egypt,family=binomial)
-summary(log.fit)
-
-all.d5 <- na.omit(d5)
-all.d5 <- all.d5[,-c(30)]
-regfit.fwd <- regsubsets(islam.p~.,all.d5,nvmax=10, method = "forward")
-summary(regfit.fwd)
-regfit.bwd <- regsubsets(islam.p~.,all.d5,nvmax=10, method = "backward")
-summary(regfit.bwd)
-log.fit <- glm(islam.p~q104 + q105a , data=d3,family=binomial)
-summary(log.fit)
 
 ###Morocco
-d.egypt <- subset(d5, country==2) 
-d.egypt<-d.egypt[-c(1:8,30,297)]
-d.egypt <- d.egypt[!colSums(is.na(d.egypt)) > 100]
-d.egypt<-na.omit(d.egypt)
+d.morocco <- subset(d5, country==8) 
+d.morocco<-d.morocco[-c(1:8,30,104,297)]
+d.morocco <- d.morocco[!colSums(is.na(d.morocco)) > 50]
+d.morocco<-na.omit(d.morocco)
 
-regfit.fwd <- regsubsets(islam.p~.,d.egypt,nvmax=5, method = "forward")
-sum.fwd <- summary(regfit.fwd)
-regfit.bwd <- regsubsets(islam.p~.,d.egypt,nvmax=5, method = "backward")
-sum.bwk <- summary(regfit.bwd)
+m.regfit.fwd <- regsubsets(islam.p~.,d.morocco,nvmax=5, method = "forward")
+m.sum.fwd <- summary(m.regfit.fwd)
+m.regfit.bwd <- regsubsets(islam.p~.,d.morocco,nvmax=5, method = "backward")
+m.sum.bwk <- summary(m.regfit.bwd)
 
-par(mfrow=c(2,2))
-plot(sum.fwd$rss ,xlab="Number of Variables ",ylab="RSS",
-     type="l")
-plot(sum.fwd$adjr2 ,xlab="Number of Variables ",
-     ylab="Adjusted RSq",type="l")
+coef(m.regfit.fwd ,6)
+coef(m.regfit.bwd ,6)
 
-which.max(sum.fwd$adjr2)
-points(6,sum.fwd$adjr2[6], col="red",cex=2,pch=20)
+m.log.fit <- glm(islam.p~q105a+q2011+q2031+q512+q5208+q812a2, data=d.morocco,family=binomial)
+summary(m.log.fit)
 
-plot(sum.fwd$cp ,xlab="Number of Variables ",ylab="Cp", type='l')
-which.min(sum.fwd$cp )
-points(6,sum.fwd$cp [6],col="red",cex=2,pch=20)
-which.min(sum.fwd$bic )
-plot(sum.fwd$bic ,xlab="Number of Variables ",ylab="BIC",
-     type='l')
-points(6,sum.fwd$bic [6],col="red",cex=2,pch=20)
-
-plot(regfit.fwd,scale="r2")
-plot(regfit.fwd,scale="adjr2")
-plot(regfit.fwd,scale="Cp")
-plot(regfit.fwd,scale="bic")
-
-coef(regfit.fwd ,6)
-coef(regfit.bwd ,6)
-
-log.fit <- glm(islam.p~q2013+q202+q5021+q6052, data=d.egypt,family=binomial)
-summary(log.fit)
-
-all.d5 <- na.omit(d5)
-all.d5 <- all.d5[,-c(30)]
-regfit.fwd <- regsubsets(islam.p~.,all.d5,nvmax=10, method = "forward")
-summary(regfit.fwd)
-regfit.bwd <- regsubsets(islam.p~.,all.d5,nvmax=10, method = "backward")
-summary(regfit.bwd)
-log.fit <- glm(islam.p~q104 + q105a , data=d3,family=binomial)
-summary(log.fit)
 
 
 
