@@ -351,8 +351,8 @@ plot(y.regfit.fwd,scale="bic")
 coef(y.regfit.fwd ,6)
 coef(y.regfit.bwd ,6)
 
-s.log.fit <- glm(islam.p~q2011+q5012+q5211+q6106+q7007+q812a3, data=d.yemen,family=binomial)
-summary(s.log.fit)
+y.log.fit <- glm(islam.p~q2011+q5012+q5211+q6106+q7007+q812a3, data=d.yemen,family=binomial)
+summary(y.log.fit)
 
 ###Tunisia
 d.tunisia <- subset(d5, country==11) 
@@ -389,11 +389,81 @@ coef(m.regfit.bwd ,6)
 m.log.fit <- glm(islam.p~q105a+q2011+q2031+q512+q5208+q812a2, data=d.morocco,family=binomial)
 summary(m.log.fit)
 
+##########################Just copied the logits again down here
+############Egypt
+e.log.fit <- glm(islam.p~q105a+q2011+q20113+q2042+q409+q501b, 
+                 data=d.egypt,family=binomial)
+summary(e.log.fit)
 
+exp(cbind(OR = coef(e.log.fit), confint(e.log.fit)))
 
+###Pred Probabilities
 
+e.pred.frame <- with(d.egypt, data.frame(q105a = (1:4), q2011 = mean(q2011), 
+                                       q20113 = mean(q20113), q2042 = mean(q2042), 
+                                       q409= mean(q409), q501b = mean(q501b)))
 
+e.pred.frame
+e.pred.prob <- predict(e.log.fit , newdata = e.pred.frame, type = "response")
+e.pred.prob
 
+############Sudan
+s.log.fit <- glm(islam.p~ q105a+q2013+q2062+q213+q6062+q6106, data=d.sudan,family=binomial)
+summary(s.log.fit)
 
+exp(cbind(OR = coef(s.log.fit), confint(s.log.fit)))
 
+###Pred Probabilities
+s.pred.frame <- with(d.sudan, data.frame(q105a = (1:4), q2013 = mean(q2013), 
+                                         q2062 = mean(q2062), q213 = mean(q213), 
+                                         q6062= mean(q6062), q6106 = mean(q6106)))
 
+s.pred.frame
+
+s.pred.prob <- predict(s.log.fit , newdata = s.pred.frame, type = "response")
+s.pred.prob
+##############Yemen
+y.log.fit <- glm(islam.p~q2011+q5012+q5211+q6106+q7007+q812a3+q105a, data=d.yemen,family=binomial)
+summary(y.log.fit)
+
+exp(cbind(OR = coef(y.log.fit), confint(y.log.fit)))
+
+###Pred Probabilities
+
+y.pred.frame <- with(d.yemen, data.frame(q2011 = mean(q2011), q5012 = mean(q5012), 
+                                         q5211 = mean(q5211), q6106 = mean(q6106), 
+                                         q7007= mean(q7007), q812a3 = mean(q812a3),q105a = (1:4)))
+
+y.pred.frame
+y.pred.prob <- predict(y.log.fit , newdata = y.pred.frame, type = "response")
+y.pred.prob
+
+############Tunisia
+t.log.fit <- glm(islam.p~q105a+q2011+q2013+q202+q6041, data=d.tunisia,family=binomial)
+summary(t.log.fit)
+
+exp(cbind(OR = coef(t.log.fit), confint(t.log.fit)))
+
+###Pred Probabilities
+t.pred.frame <- with(d.tunisia, data.frame(q105a = (1:4), q2011 = mean(q2011), 
+                                         q2013 = mean(q2013), q202 = mean(q202), 
+                                         q6041= mean(q6041)))
+
+t.pred.frame
+t.pred.prob <- predict(t.log.fit , newdata = t.pred.frame, type = "response")
+
+############Morocco
+m.log.fit <- glm(islam.p~q105a+q2011+q2031+q512+q5208+q812a2, data=d.morocco,family=binomial)
+summary(m.log.fit)
+
+exp(cbind(OR = coef(e.log.fit), confint(e.log.fit)))
+
+###Pred Probabilities
+
+m.pred.frame <- with(d.morocco, data.frame(q105a = (1:4), q2011 = mean(q2011), 
+                                           q2031 = mean(q2031), q512 = mean(q512), 
+                                           q5208= mean(q5208), q812a2 = mean(q812a2)))
+
+m.pred.frame
+m.pred.prob <- predict(m.log.fit , newdata = m.pred.frame, type = "response")
+m.pred.prob
